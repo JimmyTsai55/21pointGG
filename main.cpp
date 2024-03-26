@@ -20,8 +20,8 @@ private:
     int RunningCount = 0;
     
 public:
-    int betmoney = 25;     //一次性賭金
-    int poolmoney = 1000;
+    int betmoney = 25;     //一次要下的賭金
+    int poolmoney = 1000;  //總共有多少賭金
     std::vector<int> A, B, C, D, Player, Banker;
     Count21Point() {
         // 初始化牌堆
