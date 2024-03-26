@@ -23,11 +23,11 @@ public:
     int betmoney = 25;     //一次要下的賭金
     int poolmoney = 1000;  //總共有多少賭金
     std::vector<int> A, B, C, D, Player, Banker;
+//             初始化牌堆
     Count21Point() {
-        // 初始化牌堆
         initializeDeck();
     }
-    
+//     製作牌庫 一共五副牌 13*4*5
     void initializeDeck() {
         deck.clear();
         for (int i = 0; i < 5; ++i) {
@@ -38,7 +38,7 @@ public:
             }
         }
     }
-    
+//    分牌進去想要的牌庫 並從總牌庫裡面刪除
     void drawCard(std::vector<int> &playerDeck) {
         std::random_device rd;
         std::mt19937 gen(rd());
@@ -47,6 +47,7 @@ public:
         playerDeck.push_back(deck[index]);
         deck.erase(deck.begin() + index);
     }
+//    計算你有多少點數
     int countpoint(const std::vector<int> &decknumber) const{
         int allpoints = 0;
         for(int point : decknumber) {
@@ -56,7 +57,7 @@ public:
                 allpoints += 10;
             }
         }
-        // 如果總數不超過21點則將Ａ認為11點 ， 其餘都將Ａ認為 1 點
+//     如果總數不超過21點則將Ａ認為11點 ， 其餘都將Ａ認為 1 點
         for (int point : decknumber) {
             if (point == 1) {
                 allpoints += (allpoints + 11 <= 21) ? 11 : 1;
@@ -64,13 +65,13 @@ public:
         }
         return allpoints;
     }
-    
+    //顯示牌庫剩下多少張牌
     void showDeck(const std::vector<int> &decknumber) const {
         for (int num : decknumber) {
             std::cout << num << " ";
         }
     }
-    
+//     顯示所有玩家還有莊家的牌是多少
     void SHOWALL() {
         std::cout << "A deck: ";
         showDeck(A);
@@ -92,7 +93,7 @@ public:
         std::cout << ", " << countpoint(Banker) << std::endl;
         std::cout << std::endl;
     }
-    
+//    你要放進去的牌 必且從總牌庫裡面刪除
     void inputCardNumber(int yourcardnumber) {
         Player.push_back(yourcardnumber);
         auto it = std::find(deck.begin(), deck.end(), yourcardnumber);
@@ -105,7 +106,7 @@ public:
     const std::vector<int>& getdeckDeck() const {
         return deck;
     }
-    
+//    計算你有多少點數  （使用Hi-Lo算牌法  2-6 總體真數-1  10 J Q K A 總體真數+1
     int countRunningCount() const {
         int localRunningCount = 0;
         for (int card : deck) {
@@ -117,11 +118,11 @@ public:
         }
         return localRunningCount;
     }
-    
+//     用四捨五入取總牌庫裡面剩下幾副牌
     float deckRemaining() const {
         return static_cast<float>(round(deck.size() / 52.0 * 10) / 10);
     }
-    
+//    清理牌庫
     void clearDecks() {
         A.clear();
         B.clear();
@@ -130,26 +131,29 @@ public:
         Player.clear();
         Banker.clear();
     }
+//    贏了要加多少錢
     void plusmoney(int& betmultiple) {
         poolmoney += betmultiple*betmoney;
     }
+//    輸了要扣多少錢
     void minusmoney(int& betmultiple) {
         poolmoney -= betmultiple*betmoney;
     }
+//    判斷輸入值是否為數字
     bool isNumber(const std::string &s) const {
         std::regex pattern("-?[0-9]+");
         return std::regex_match(s, pattern);
     }
-    
+//    Hi-Lo計算真數的方程式
     int trueCount() const {
         return countRunningCount() / static_cast<int>(deckRemaining());
     }
-    
+//    Hi-Lo算牌法去計算你應該下多少倍的賭金
     int bet() const {
         if(trueCount() != 0) {
             return trueCount() - 1;
         } else {
-            return 0;
+            return trueCount();
         }
     }
 };
@@ -195,7 +199,7 @@ int main() {
                 if(playerPoints > 21) {
                     std::cout << "!!!!!!!LOSE!!!!!!" << std::endl;
                 }
-                //進行下一回合遊戲  並同時結算遊戲
+//                進行下一回合遊戲  並同時結算遊戲
             } else if(inputcommand == "next") {
                 if (bankerPoints <= 17) {
                     c21p.drawCard(c21p.Banker);
@@ -218,12 +222,12 @@ int main() {
                 std::cout << "====NEW_GAME====" << std::endl;
                 c21p.clearDecks();
                 break;
-                //結束遊戲
+//                結束遊戲
             } else if (inputcommand == "quit") {
                 std::cout << "=========quit==========" << std::endl;
                 newgame = false;
                 break;
-                //幫莊家自動補牌
+//                幫莊家自動補牌
             } else if (inputcommand == "go") {
                 while (bankerPoints <= 17) {
                     c21p.drawCard(c21p.Banker);
