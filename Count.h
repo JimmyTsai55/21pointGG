@@ -70,24 +70,19 @@ public:
     }
 //     顯示所有玩家還有莊家的牌是多少
     void SHOWALL() {
-        std::cout << "A deck: ";
-        showDeck(A);
-        std::cout << ", " << countpoint(A) << std::endl;
-        std::cout << "B deck: ";
-        showDeck(B);
-        std::cout << ", " << countpoint(B) << std::endl;
-        std::cout << "C deck: ";
-        showDeck(C);
-        std::cout << ", " << countpoint(C) << std::endl;
-        std::cout << "D deck: ";
-        showDeck(D);
-        std::cout << ", " << countpoint(D) << std::endl;
-        std::cout << "Player deck: ";
-        showDeck(Player);
-        std::cout << ", " << countpoint(Player) << std::endl;
-        std::cout << "Bankers deck: ";
-        showDeck(Banker);
-        std::cout << ", " << countpoint(Banker) << std::endl;
+        auto display = [this](const std::vector<int> &deck, const std::string &name) {
+            std::cout << name << " deck: ";
+            showDeck(deck);
+            std::cout << ", " << countpoint(deck) << std::endl;
+        };
+        
+        display(A, "A");
+        display(B, "B");
+        display(C, "C");
+        display(D, "D");
+        display(Player, "Player");
+        display(Banker, "Banker");
+        
         std::cout << std::endl;
     }
 //    你要放進去的牌 必且從總牌庫裡面刪除
