@@ -39,7 +39,7 @@ public:
     void drawCard(std::vector<int> &playerDeck) {
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<int> dis(0, deck.size() - 1);
+        std::uniform_int_distribution<int> dis(0, static_cast<int>(deck.size() - 1));
         int index = dis(gen);
         playerDeck.push_back(deck[index]);
         deck.erase(deck.begin() + index);
